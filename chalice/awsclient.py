@@ -1667,6 +1667,7 @@ class TypedAWSClient(object):
             'EventSourceArn': event_source_arn,
             'FunctionName': function_name,
             'BatchSize': batch_size,
+            'Enabled': True
         }
         if starting_position is not None:
             kwargs['StartingPosition'] = starting_position
@@ -1680,7 +1681,7 @@ class TypedAWSClient(object):
         lambda_client = self._client('lambda')
         self._call_client_method_with_retries(
             lambda_client.update_event_source_mapping,
-            {'UUID': event_uuid, 'BatchSize': batch_size},
+            {'UUID': event_uuid, 'BatchSize': batch_size, 'Enabled': True},
             max_attempts=10,
             should_retry=self._is_settling_error,
         )

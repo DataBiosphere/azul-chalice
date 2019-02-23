@@ -1831,6 +1831,7 @@ class TypedAWSClient(object):
             'FunctionName': function_name,
             'BatchSize': batch_size,
             'MaximumBatchingWindowInSeconds': batch_window,
+            'Enabled': True
         }
         if starting_position is not None:
             kwargs['StartingPosition'] = starting_position
@@ -1852,6 +1853,7 @@ class TypedAWSClient(object):
             'UUID': event_uuid,
             'BatchSize': batch_size,
             'MaximumBatchingWindowInSeconds': batch_window,
+            'Enabled': True,
         }
         self._call_client_method_with_retries(
             lambda_client.update_event_source_mapping,

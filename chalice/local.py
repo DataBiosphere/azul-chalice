@@ -57,7 +57,12 @@ class Clock(object):
 
 def create_local_server(app_obj, config, host, port):
     # type: (Chalice, Config, str, int) -> LocalDevServer
-    app_obj.__class__ = LocalChalice
+    # Inject LocalChalice as a super-class of the class that the app object is
+    # an instance of. We do this so we can override the `current_request`
+    # property setters and getters.
+    # (based on https://stackoverflow.com/a/11050571/7830612)
+    cls = type(app_obj) 
+    app_obj.__class__ = type(cls)('AzulLocalChalice', (cls, LocalChalice), {})
     return LocalDevServer(app_obj, config, host, port)
 
 

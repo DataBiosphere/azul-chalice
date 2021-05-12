@@ -925,7 +925,7 @@ class TerraformGenerator(TemplateGenerator):
         template['resource'].setdefault(
             'aws_lambda_permission', {})[
             resource.resource_name] = {
-            'function_name': resource.lambda_function.function_name,
+            'function_name': self._fref(resource.lambda_function, attr='function_name'),
             'action': 'lambda:InvokeFunction',
             'principal': self._options.service_principal('events'),
             'source_arn': "${aws_cloudwatch_event_rule.%s.arn}" % (

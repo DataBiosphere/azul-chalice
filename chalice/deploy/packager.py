@@ -858,13 +858,22 @@ class DependencyBuilder(object):
         self, abi: str, requirements_filepath: str, target_directory: str
     ) -> None:
         if self._has_at_least_one_package(requirements_filepath):
-            with self._osutils.tempdir() as tempdir:
-                wheels, packages_without_wheels = self._download_dependencies(
-                    abi, tempdir, requirements_filepath
-                )
-                self._install_wheels(tempdir, target_directory, wheels)
-            if packages_without_wheels:
-                raise MissingDependencyError(packages_without_wheels)
+            bin_dir = self._osutils.environ().get('azul_chalice_bin')
+            if bin_dir:
+                assert self._osutils.directory_exists(bin_dir)
+                wheels = {
+                    Package(bin_dir, filename)
+                    for filename in self._osutils.get_directory_contents(bin_dir)
+                }
+                self._install_wheels(bin_dir, target_directory, wheels)
+            else:
+                with self._osutils.tempdir() as tempdir:
+                    wheels, packages_without_wheels = self._download_dependencies(
+                        abi, tempdir, requirements_filepath)
+                    self._install_wheels(tempdir, target_directory, wheels)
+
+                if packages_without_wheels:
+                    raise MissingDependencyError(packages_without_wheels)
 
 
 class Package(object):

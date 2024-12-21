@@ -1834,6 +1834,7 @@ class TypedAWSClient(object):
             'FunctionName': function_name,
             'BatchSize': batch_size,
             'MaximumBatchingWindowInSeconds': batch_window,
+            'Enabled': True
         }
         if maximum_concurrency:
             kwargs['ScalingConfig'] = {
@@ -1860,6 +1861,7 @@ class TypedAWSClient(object):
             'UUID': event_uuid,
             'BatchSize': batch_size,
             'MaximumBatchingWindowInSeconds': batch_window,
+            'Enabled': True,
         }
         if maximum_concurrency:
             kwargs['ScalingConfig'] = {

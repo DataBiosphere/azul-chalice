@@ -1950,8 +1950,10 @@ class RestAPIEventHandler(BaseLambdaHandler):
             body: Any = stack_trace
             headers['Content-Type'] = 'text/plain'
         else:
-            context = getattr(self.current_request, 'lambda_context', None)
-            request_id = getattr(context, 'aws_request_id', None)
+            try:
+                request_id = self.current_request.lambda_context.aws_request_id
+            except:
+                request_id = None
             body = {'Code': 'InternalServerError',
                     'Message': 'An internal server error occurred.',
                     'RequestId': request_id}

@@ -27,9 +27,6 @@ __version__: str = '1.31.3'
 from typing import List, Dict, Any, Optional, Sequence, Union, Callable, Set, \
     Iterator, TYPE_CHECKING, Tuple
 
-if TYPE_CHECKING:
-    from chalice.local import LambdaContext
-
 _PARAMS = re.compile(r'{\w+}')
 MiddlewareFuncType = Callable[[Any, Callable[[Any], Any]], Any]
 UserHandlerFuncType = Callable[..., Any]
@@ -1225,13 +1222,15 @@ class _HandlerRegistration(object):
 class Chalice(_HandlerRegistration, DecoratorAPI):
     FORMAT_STRING = '%(name)s - %(levelname)s - %(message)s'
     authorizers: Dict[str, Dict[str, Any]]
-    lambda_context: 'LambdaContext'
-    current_request: Optional[Request]
 
     def __init__(self, app_name: str, debug: bool = False,
                  configure_logs: bool = True,
                  env: Optional[MutableMapping] = None) -> None:
         super(Chalice, self).__init__()
+        # We would like to declare this as LambdaContext but that should be a
+        # stub, not the concrete mock implementation from chalice.local.
+        self.lambda_context: Any = None
+        self.current_request: Optional[Request] = None
         self.app_name: str = app_name
         self.websocket_api: WebsocketAPI = WebsocketAPI()
         self._debug: bool = debug

@@ -1,6 +1,6 @@
 sample/
 .cache
-venv
+.venv/
 docs/build/
 .idea
 __pycache__/

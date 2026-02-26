@@ -42,6 +42,7 @@ jobs:
       - name: Install dependencies
         run: |
           make install-dev-deps
+          pip install --upgrade setuptools
       - name: Build wheels
         run: python setup.py bdist_wheel
       - name: Upload wheels

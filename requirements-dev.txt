@@ -72,7 +72,7 @@ packaging==24.2
     # via
     #   pytest
     #   sphinx
-pbr==6.1.0
+pbr==7.0.3
     # via stevedore
 platformdirs==4.3.6
     # via pylint

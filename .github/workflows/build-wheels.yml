@@ -13,7 +13,7 @@ concurrency:
 
 env:
   REPORTS_DIR: CI_reports
-  PYTHON_VERSION_DEFAULT: "3.13"
+  PYTHON_VERSION_DEFAULT: "3.14"
   POETRY_VERSION: "1.8.1"
   TESTS_REPORTS_ARTIFACT: tests-reports
 
@@ -28,7 +28,7 @@ jobs:
       matrix:
         os: [ 'ubuntu-latest' ]
         python-version:
-          - "3.13" # highest supported
+          - "3.14" # highest supported
     steps:
       - name: Checkout
         # see https://github.com/actions/checkout

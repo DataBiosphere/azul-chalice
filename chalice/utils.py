@@ -8,7 +8,7 @@ import re
 import shutil
 import sys
 import tarfile
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import subprocess
 from os import PathLike  # noqa
 
@@ -439,7 +439,9 @@ class TimestampConverter(object):
 
     def __init__(self, now: Optional[Callable[[], datetime]] = None) -> None:
         if now is None:
-            now = datetime.utcnow
+            def datetime_now() -> datetime:
+                return datetime.now(timezone.utc).replace(tzinfo=None)
+            now = datetime_now
         self._now = now
 
     def timestamp_to_datetime(self, timestamp: str) -> datetime:
